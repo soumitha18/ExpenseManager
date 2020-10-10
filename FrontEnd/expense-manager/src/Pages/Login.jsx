@@ -119,6 +119,7 @@ const RegistrationWrapper = styled.div`
           border-radius: 3px;
           margin-top: 5px;
           position: absolute;
+          outline: none;
           right: 10px;
           bottom: 50px;
           @media only screen and (max-width: 768px) {
@@ -135,6 +136,11 @@ const RegistrationWrapper = styled.div`
           }
         }
       }
+      .errorMessageSmall {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+      }
     }
   }
 `;
@@ -143,6 +149,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
+  const [showError, setShowError] = useState(false);
   const history = useHistory();
 
   const handleSubmit = (e) => {
@@ -158,6 +165,10 @@ export default function Login() {
       })
       .catch((err) => {
         setErr(err.response.data);
+        setShowError(true);
+        setTimeout(() => {
+          setShowError(false);
+        }, 2000);
       });
   };
 
@@ -202,7 +213,11 @@ export default function Login() {
                 <Link to="/registration">Create an Account</Link>
               </div>
               <button onClick={(e) => handleSubmit(e)}>LOGIN</button>
-              {err && <small style={{ color: "red" }}>{err}</small>}
+              {err && showError && (
+                <small className="errorMessageSmall" style={{ color: "red" }}>
+                  {err}
+                </small>
+              )}
             </form>
           </div>
         </div>

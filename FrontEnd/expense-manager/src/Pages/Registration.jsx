@@ -140,6 +140,10 @@ export default function Registration() {
   const [res, setRes] = useState("")
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4973ae35e2114d75644cf40623176ea0134f4f9e
   const handleSubmit = (e) => {
     e.preventDefault();
     let obj = { name, email, password }
@@ -148,10 +152,14 @@ export default function Registration() {
       .catch(err => setErr(err.response.data))
   };
   console.log(err, res)
+<<<<<<< HEAD
 =======
   const handleSubmit = (e) => {};
 
 >>>>>>> Registration-Page
+=======
+
+>>>>>>> 4973ae35e2114d75644cf40623176ea0134f4f9e
   return (
     <RegistrationWrapper>
       <div className="registrationDiv">

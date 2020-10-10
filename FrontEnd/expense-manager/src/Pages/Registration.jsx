@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import axios from "axios"
+import axios from "axios";
 
 const RegistrationWrapper = styled.div`
   padding-top: 40px;
@@ -40,6 +40,7 @@ const RegistrationWrapper = styled.div`
       border-radius: 4px;
       width: 500px;
       position: relative;
+      padding-bottom: 40px;
       @media only screen and (max-width: 768px) {
         width: 100%;
         padding: 15px;
@@ -135,17 +136,18 @@ export default function Registration() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [err, setErr] = useState("")
-  const [res, setRes] = useState("")
+  const [err, setErr] = useState("");
+  const [res, setRes] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let obj = { name, email, password }
-    axios.post("http://localhost:5000/user/register", obj)
-      .then(res => setRes(res.data))
-      .catch(err => setErr(err.response.data))
+    let obj = { name, email, password };
+    axios
+      .post("http://localhost:5000/user/register", obj)
+      .then((res) => setRes(res.data))
+      .catch((err) => setErr(err.response.data));
   };
-  console.log(err, res)
+  console.log(err, res);
   return (
     <RegistrationWrapper>
       <div className="registrationDiv">

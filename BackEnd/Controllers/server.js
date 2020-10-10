@@ -85,43 +85,29 @@ const postTransaction = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
 const getTransactions = async (req, res) => {
-    let result = {}
-
-    try {
-        await UserTransaction.find({ user_id: req.body.user_id })
-            .then(transactions => {
-                temp = transactions
-                if (transactions.length > 5)
-                    result.transaction = temp.slice(transactions.length - 5, transactions.length)
-                else
-                    result.transaction = temp
-                result.total_income = transactions.filter(item => item.type === "Credit").reduce((a, c) => a + c.amount,0)
-                result.total_expense = transactions.filter(item => item.type === "Debit").reduce((a, c) => a + c.amount,0)
-                result.balance = result.total_income - result.total_expense
-                res.json(result)
-            })
-    } catch (err) {
-        res.status(400).send(err)
-    }
-}
-
-module.exports = { registration, login, logout, postTransaction, getTransactions }
-=======
-const getTransactions = (req, res) => {
   let result = {};
+
   try {
-    UserTransaction.find().then((transactions) => {
-      temp = transactions;
-      if (transactions.length > 5)
-        result.transaction = temp.slice(
-          transactions.length - 5,
-          transactions.length
-        );
-      else result.transaction = temp;
-      res.json(result);
-    });
+    await UserTransaction.find({ user_id: req.body.user_id }).then(
+      (transactions) => {
+        temp = transactions;
+        if (transactions.length > 5)
+          result.transaction = temp.slice(
+            transactions.length - 5,
+            transactions.length
+          );
+        else result.transaction = temp;
+        result.total_income = transactions
+          .filter((item) => item.type === "Credit")
+          .reduce((a, c) => a + c.amount, 0);
+        result.total_expense = transactions
+          .filter((item) => item.type === "Debit")
+          .reduce((a, c) => a + c.amount, 0);
+        result.balance = result.total_income - result.total_expense;
+        res.json(result);
+      }
+    );
   } catch (err) {
     res.status(400).send(err);
   }
@@ -134,4 +120,3 @@ module.exports = {
   postTransaction,
   getTransactions,
 };
->>>>>>> d561c07b3160d1b5539147a1e4c507acaeaf805f

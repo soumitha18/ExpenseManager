@@ -82,16 +82,20 @@ const postTransaction = async (req, res) => {
 
 }
 
-const getTransactions = (req, res) => {
+const getTransactions = async (req, res) => {
     let result = {}
+
     try {
-        UserTransaction.find()
+        await UserTransaction.find({ user_id: req.body.user_id })
             .then(transactions => {
                 temp = transactions
                 if (transactions.length > 5)
                     result.transaction = temp.slice(transactions.length - 5, transactions.length)
                 else
                     result.transaction = temp
+                result.total_income = transactions.filter(item => item.type === "Credit").reduce((a, c) => a + c.amount,0)
+                result.total_expense = transactions.filter(item => item.type === "Debit").reduce((a, c) => a + c.amount,0)
+                result.balance = result.total_income - result.total_expense
                 res.json(result)
             })
     } catch (err) {

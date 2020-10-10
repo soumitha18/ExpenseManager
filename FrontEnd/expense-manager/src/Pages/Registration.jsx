@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios"
 
 const RegistrationWrapper = styled.div`
   padding-top: 40px;
@@ -135,8 +136,18 @@ export default function Registration() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState("")
+  const [res, setRes] = useState("")
 
-  const handleSubmit = (e) => {};
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let obj = { name, email, password }
+    axios.post("http://localhost:5000/user/register", obj)
+      .then(res => setRes(res.data))
+      .catch(err => setErr(err.response.data))
+  };
+  console.log(err, res)
 
   return (
     <RegistrationWrapper>
@@ -146,7 +157,7 @@ export default function Registration() {
           <img
             style={{ width: "100%", borderRadius: "4px" }}
             src="./registrationPage.png"
-            alt="Registration Page Landing Image"
+            alt="RegistrationPageLandingImage"
           />
         </div>
 

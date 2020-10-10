@@ -1,8 +1,10 @@
 const express = require("express")
-const { login, registration, postTransaction } = require("../Controllers/server")
+const { login, registration, postTransaction, logout } = require("../Controllers/server")
 const router = express.Router()
 
 router.post("/user/login", login)
+
+router.post("/user/logout", logout)
 
 router.post("/user/register", registration)
 

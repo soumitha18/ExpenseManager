@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { Link, useHistory } from "react-router-dom";
 
 const RegistrationWrapper = styled.div`
   padding-top: 40px;
@@ -137,13 +138,17 @@ export default function Registration() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
+  const history = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let obj = { name, email, password };
     axios
       .post("http://localhost:5000/user/register", obj)
-      .then((res) => alert(res.data.res))
+      .then((res) => {
+        alert(res.data.res)
+        history.push("/login")
+      })
       .catch((err) => setErr(err.response.data));
   };
 
@@ -189,7 +194,7 @@ export default function Registration() {
                 required
               />
               <br />
-              <div className="alreadyRegistered">Already Registered</div>
+              <div className="alreadyRegistered"><Link to="/login">Already Registered</Link></div>
               <button onClick={(e) => handleSubmit(e)}>REGISTER</button>
               {err && <small style={{ color: "red" }}>{err}</small>}
             </form>

@@ -20,6 +20,11 @@ const userSchema = new Schema({
     required: true,
     max: 255,
     min: 6,
+  },
+  active: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 

@@ -27,7 +27,7 @@ const registration = async (req, res) => {
 
     try {
         const savedUser = await user.save();
-        res.json("registration is successful");
+        res.json({ res: "registration is successful" });
     } catch (err) {
         res.status(400).json(err);
     }
@@ -44,9 +44,20 @@ const login = async (req, res) => {
         return res.status(400).json("Invalid Email");
     }
 
+    user.active = true
+    user.save()
+
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).json("Invalid password");
     res.json({ res: "logged in", user });
+}
+
+const logout = async (req, res) => {
+    const user = await User.findOne({ email: req.body.email })
+    user.active = false
+    user.save()
+
+    res.json({ res: "logged Out" })
 }
 
 const postTransaction = async (req, res) => {
@@ -88,4 +99,4 @@ const getTransactions = (req, res) => {
     }
 }
 
-module.exports = { registration, login, postTransaction, getTransactions }
+module.exports = { registration, login, logout, postTransaction, getTransactions }

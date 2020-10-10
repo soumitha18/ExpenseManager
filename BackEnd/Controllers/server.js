@@ -2,8 +2,6 @@ const bcrypt = require("bcryptjs");
 const { registerValidation, loginValidation, transactionValidation } = require("../Validation/validation");
 const User = require("../models/user")
 const UserTransaction = require("../models/transaction");
-const transaction = require("../models/transaction");
-const e = require("express");
 
 const registration = async (req, res) => {
     const { error } = registerValidation(req.body);

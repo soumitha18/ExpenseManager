@@ -137,17 +137,16 @@ export default function Registration() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
-  const [res, setRes] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let obj = { name, email, password };
     axios
       .post("http://localhost:5000/user/register", obj)
-      .then((res) => setRes(res.data))
+      .then((res) => alert(res.data))
       .catch((err) => setErr(err.response.data));
   };
-  console.log(err, res);
+
   return (
     <RegistrationWrapper>
       <div className="registrationDiv">
@@ -192,6 +191,7 @@ export default function Registration() {
               <br />
               <div className="alreadyRegistered">Already Registered</div>
               <button onClick={(e) => handleSubmit(e)}>REGISTER</button>
+              {err && <small style={{ color: "red" }}>{err}</small>}
             </form>
           </div>
         </div>

@@ -140,7 +140,6 @@ const RegistrationWrapper = styled.div`
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [res, setRes] = useState("")
   const [err, setErr] = useState("")
 
   const handleSubmit = (e) => {
@@ -149,14 +148,13 @@ export default function Login() {
     axios.post("http://localhost:5000/user/login", obj)
       .then(res => {
         setErr("")
-        setRes(res.data)
+        alert(res.data)
       })
       .catch(err => {
-        setRes("")
         setErr(err.response.data)
       })
   };
-  console.log(err, res)
+  console.log(err)
   return (
     <RegistrationWrapper>
       <div className="loginDiv">
@@ -191,6 +189,7 @@ export default function Login() {
               <br />
               <div className="createAccount">Create an Account</div>
               <button onClick={(e) => handleSubmit(e)}>LOGIN</button>
+
             </form>
           </div>
         </div>

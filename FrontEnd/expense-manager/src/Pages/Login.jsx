@@ -37,6 +37,7 @@ const RegistrationWrapper = styled.div`
     .formDiv {
       background-color: white;
       border-radius: 4px;
+      padding-bottom: 15px;
       width: 500px;
       position: relative;
       @media only screen and (max-width: 768px) {

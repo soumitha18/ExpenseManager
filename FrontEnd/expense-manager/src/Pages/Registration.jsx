@@ -143,7 +143,7 @@ export default function Registration() {
     let obj = { name, email, password };
     axios
       .post("http://localhost:5000/user/register", obj)
-      .then((res) => alert(res.data))
+      .then((res) => alert(res.data.res))
       .catch((err) => setErr(err.response.data));
   };
 

@@ -150,13 +150,13 @@ export default function Login() {
       .post("http://localhost:5000/user/login", obj)
       .then((res) => {
         setErr("");
-        alert(res.data);
+        alert(res.data.res);
       })
       .catch((err) => {
         setErr(err.response.data);
       });
   };
-  console.log(err);
+
   return (
     <RegistrationWrapper>
       <div className="loginDiv">

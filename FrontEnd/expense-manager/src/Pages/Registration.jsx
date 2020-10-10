@@ -40,6 +40,7 @@ const RegistrationWrapper = styled.div`
       border-radius: 4px;
       width: 500px;
       position: relative;
+      padding-bottom: 40px;
       @media only screen and (max-width: 768px) {
         width: 100%;
         padding: 15px;
@@ -138,6 +139,7 @@ export default function Registration() {
   const [err, setErr] = useState("")
   const [res, setRes] = useState("")
 
+<<<<<<< HEAD
   const handleSubmit = (e) => {
     e.preventDefault();
     let obj = { name, email, password }
@@ -146,6 +148,10 @@ export default function Registration() {
       .catch(err => setErr(err.response.data))
   };
   console.log(err, res)
+=======
+  const handleSubmit = (e) => {};
+
+>>>>>>> Registration-Page
   return (
     <RegistrationWrapper>
       <div className="registrationDiv">

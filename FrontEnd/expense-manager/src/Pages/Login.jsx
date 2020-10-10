@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom";
 
 const RegistrationWrapper = styled.div`
   padding-top: 40px;
@@ -143,8 +143,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
-  const [user, setUser] = useState({})
-  const history = useHistory()
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     let obj = { email, password };
@@ -154,9 +153,8 @@ export default function Login() {
       .then((res) => {
         setErr("");
         alert(res.data.res);
-        savingData(res.data.user)
-        history.push("/dashboard")
-
+        savingData(res.data.user);
+        history.push("/dashboard");
       })
       .catch((err) => {
         setErr(err.response.data);
@@ -164,8 +162,8 @@ export default function Login() {
   };
 
   const savingData = (data) => {
-    localStorage.setItem("activeUserDetails", JSON.stringify(data))
-  }
+    localStorage.setItem("activeUserDetails", JSON.stringify(data));
+  };
 
   return (
     <RegistrationWrapper>
@@ -199,7 +197,10 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <br />
-              <div className="createAccount" > <Link to="/registration">Create an Account</Link></div>
+              <div className="createAccount">
+                {" "}
+                <Link to="/registration">Create an Account</Link>
+              </div>
               <button onClick={(e) => handleSubmit(e)}>LOGIN</button>
               {err && <small style={{ color: "red" }}>{err}</small>}
             </form>

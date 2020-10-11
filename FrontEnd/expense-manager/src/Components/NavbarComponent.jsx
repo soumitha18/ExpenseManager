@@ -4,7 +4,7 @@ import axios from "axios";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink, useLocation } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 const NavbarWrapper = styled.div`
   border: 1px solid #0ac76f;
@@ -19,10 +19,16 @@ const NavbarWrapper = styled.div`
     text-decoration: none;
   }
 
-  button {
-    border: 1px solid white;
-    background-color: white;
+  .activeNavbarLinks {
     color: green;
+    font-family: "Poppins";
+    font-size: 16px;
+  }
+
+  button {
+    border: 1px solid #f8f9fa;
+    background-color: #f8f9fa;
+    color: #10b26c;
   }
 `;
 
@@ -50,6 +56,13 @@ export default function NavbarComponent() {
       .catch((err) => console.log(err));
   };
 
+  if (userData === null) {
+    localStorage.setItem(
+      "activeUserDetails",
+      JSON.stringify({ active: false })
+    );
+  }
+
   return (
     <NavbarWrapper>
       <Navbar bg="light" expand="lg">
@@ -59,12 +72,20 @@ export default function NavbarComponent() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            {location.pathname !== "/dashboard" && (
+            <NavLink
+              to="/registration"
+              className="navbarLinks"
+              activeClassName="activeNavbarLinks"
+            >
+              Registration
+            </NavLink>
+            {location.pathname !== "/dashboard" && !userData.active && (
               <>
-                <NavLink to="/registration" className="navbarLinks">
-                  Registration
-                </NavLink>
-                <NavLink to="/login" className="navbarLinks">
+                <NavLink
+                  to="/login"
+                  className="navbarLinks"
+                  activeClassName="activeNavbarLinks"
+                >
                   Login
                 </NavLink>
               </>
@@ -73,7 +94,11 @@ export default function NavbarComponent() {
             {userData && (
               <>
                 {userData.active && (
-                  <NavLink to="/dashboard" className="navbarLinks">
+                  <NavLink
+                    to="/dashboard"
+                    className="navbarLinks"
+                    activeClassName="activeNavbarLinks"
+                  >
                     Dashboard
                   </NavLink>
                 )}

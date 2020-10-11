@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
 const RegistrationWrapper = styled.div`
   padding-top: 40px;
@@ -92,6 +92,7 @@ const RegistrationWrapper = styled.div`
           margin: 8px 0px;
           outline: none;
           border: none;
+          width: 252px;
           border-bottom: 1px solid black;
 
           @media only screen and (max-width: 768px) {
@@ -152,6 +153,8 @@ export default function Login() {
   const [showError, setShowError] = useState(false);
   const history = useHistory();
 
+  const userData = JSON.parse(localStorage.getItem("activeUserDetails"));
+
   const handleSubmit = (e) => {
     let obj = { email, password };
     e.preventDefault();
@@ -175,6 +178,10 @@ export default function Login() {
   const savingData = (data) => {
     localStorage.setItem("activeUserDetails", JSON.stringify(data));
   };
+
+  if (userData.active) {
+    return <Redirect to="/dashboard"></Redirect>;
+  }
 
   return (
     <RegistrationWrapper>

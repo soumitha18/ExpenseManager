@@ -72,12 +72,8 @@ export default function Dashboard() {
   const [totalBalance, setTotalBalance] = useState(0);
 
   useEffect(() => {
-    console.log("The userid is ", userData._id);
-    let payload = {
-      user_id: "5f81f351e89d473fc8e3e61f",
-    };
     axios
-      .get("http://localhost:5000/user/transactions", payload)
+      .get(`http://localhost:5000/user/transactions?user=${userData._id}`)
       .then((res) => console.log(res))
       .catch((err) => console.log(err.response.data));
   }, []);
@@ -87,7 +83,7 @@ export default function Dashboard() {
       method: "post",
       url: "http://localhost:5000/user/logout",
       data: {
-        email: userData.email,
+        email: userData.email
       },
     })
       .then((response) => {

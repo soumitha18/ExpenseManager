@@ -89,7 +89,7 @@ const getTransactions = async (req, res) => {
   let result = {};
 
   try {
-    await UserTransaction.find({ user_id: req.body.user_id }).then(
+    await UserTransaction.find({ user_id: req.query.user }).then(
       (transactions) => {
         temp = transactions;
         console.log(temp);
@@ -117,7 +117,7 @@ const getTransactions = async (req, res) => {
 const getPagination = async (req, res) => {
   const page = Number(req.query.page)
   const type = req.query.type
-  const user_id = req.body.user_id
+  const user_id = req.query.user
   const limit = 20
   let result = {}
 

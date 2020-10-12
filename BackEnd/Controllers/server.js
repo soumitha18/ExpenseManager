@@ -115,6 +115,7 @@ const getTransactions = async (req, res) => {
 
 const getPagination = async (req, res) => {
   const page = Number(req.query.page)
+  const type = req.query.type
   const user_id = req.body.user_id
   const limit = 20
   let result = {}
@@ -139,14 +140,24 @@ const getPagination = async (req, res) => {
             page: page - 1
           }
         }
-        result.current = temp.slice(startIndex, endIndex)
+        console.log(type)
+        switch (type) {
+          case "Debit":
+            temp = temp.filter(item => item.type === "Debit")
+            result.current = temp.slice(startIndex, endIndex)
+            break
+          case "Credit":
+            temp = temp.filter(item => item.type === "Credit")
+            result.current = temp.slice(startIndex, endIndex)
+            break
+          default:
+            result.current = temp.slice(startIndex, endIndex)
+        }
         res.json(result)
       })
   } catch (err) {
     res.status(400).send(err)
   }
-
-
 }
 
 module.exports = {

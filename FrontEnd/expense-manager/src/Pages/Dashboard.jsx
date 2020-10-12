@@ -48,6 +48,7 @@ const DashboardWrapper = styled.div`
           background-color: transparent;
           color: #678c7f;
           padding-right: 105px;
+          outline: none;
           :hover {
             color: black;
           }
@@ -70,16 +71,35 @@ export default function Dashboard() {
   const [totalExpense, setTotalExpense] = useState(0);
   const [totalBalance, setTotalBalance] = useState(0);
 
-  // useEffect(() => {
-  //   console.log("The userid is ", userData._id);
-  //   let payload = {
-  //     user_id: "5f81f351e89d473fc8e3e61f",
-  //   };
-  //   axios
-  //     .get("http://localhost:5000/user/transactions", payload)
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err.response.data));
-  // }, []);
+  useEffect(() => {
+    console.log("The userid is ", userData._id);
+    let payload = {
+      user_id: "5f81f351e89d473fc8e3e61f",
+    };
+    axios
+      .get("http://localhost:5000/user/transactions", payload)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err.response.data));
+  }, []);
+
+  const handleLogout = () => {
+    axios({
+      method: "post",
+      url: "http://localhost:5000/user/logout",
+      data: {
+        email: userData.email,
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        localStorage.setItem(
+          "activeUserDetails",
+          JSON.stringify(response.data.user)
+        );
+        history.push("/login");
+      })
+      .catch((err) => console.log(err));
+  };
 
   if (!userData.active) {
     history.push("/login");
@@ -103,7 +123,7 @@ export default function Dashboard() {
             </Col>
           </Row>
           <Row>
-            <Col className="visual d-md-none d-lg-block sidebar" lg={2}>
+            <Col className="visual d-none d-lg-block sidebar" lg={2}>
               <h4>EXPENSE MANAGER</h4>
               <div className="sidebarDivItems">
                 <ul style={{ listStyle: "none" }}>
@@ -118,7 +138,7 @@ export default function Dashboard() {
                     </li>
                   </Link>
                   <li>
-                    <button>
+                    <button onClick={() => handleLogout()}>
                       <i className="fas fa-sign-out-alt"></i>Logout
                     </button>
                   </li>

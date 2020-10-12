@@ -10,14 +10,16 @@ export default function Routes() {
   const userData = JSON.parse(localStorage.getItem("activeUserDetails"));
   return (
     <>
-      <NavbarComponent />
       <Route path="/" exact>
+        <NavbarComponent />
         <Homepage />
       </Route>
       <Route path="/login">
+        <NavbarComponent />
         <Login />
       </Route>
       <Route path="/registration">
+        <NavbarComponent />
         <Registration />
       </Route>
       <Route path="/dashboard">

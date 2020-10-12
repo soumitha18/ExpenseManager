@@ -10,7 +10,6 @@ const NavbarWrapper = styled.div`
   border: 1px solid #0ac76f;
   width: 100%;
   height: 50px;
-  position: fixed;
   z-index: 5;
   box-shadow: 6px 6px 12px #dbdbdb, -6px -6px 12px #ffffff;
 

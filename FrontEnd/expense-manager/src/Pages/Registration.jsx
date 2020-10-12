@@ -91,6 +91,7 @@ const RegistrationWrapper = styled.div`
           padding: 4px;
           margin: 8px 0px;
           outline: none;
+          width: 252px;
           border: none;
           border-bottom: 1px solid black;
 
@@ -138,7 +139,7 @@ export default function Registration() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
-  const history = useHistory()
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -146,8 +147,8 @@ export default function Registration() {
     axios
       .post("http://localhost:5000/user/register", obj)
       .then((res) => {
-        alert(res.data.res)
-        history.push("/login")
+        alert(res.data.res);
+        history.push("/login");
       })
       .catch((err) => setErr(err.response.data));
   };
@@ -194,7 +195,9 @@ export default function Registration() {
                 required
               />
               <br />
-              <div className="alreadyRegistered"><Link to="/login">Already Registered</Link></div>
+              <div className="alreadyRegistered">
+                <Link to="/login">Already Registered</Link>
+              </div>
               <button onClick={(e) => handleSubmit(e)}>REGISTER</button>
               {err && <small style={{ color: "red" }}>{err}</small>}
             </form>

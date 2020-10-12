@@ -87,11 +87,12 @@ const postTransaction = async (req, res) => {
 
 const getTransactions = async (req, res) => {
   let result = {};
-
+  console.log(req.body);
   try {
     await UserTransaction.find({ user_id: req.body.user_id }).then(
       (transactions) => {
         temp = transactions;
+        console.log(temp);
         if (transactions.length > 5)
           result.transaction = temp.slice(
             transactions.length - 5,

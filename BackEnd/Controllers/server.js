@@ -87,7 +87,7 @@ const postTransaction = async (req, res) => {
 
 const getTransactions = async (req, res) => {
   let result = {};
-
+  console.log(req.body)
   try {
     await UserTransaction.find({ user_id: req.body.user_id }).then(
       (transactions) => {
@@ -113,10 +113,47 @@ const getTransactions = async (req, res) => {
   }
 };
 
+const getPagination = async (req, res) => {
+  const page = Number(req.query.page)
+  const user_id = req.body.user_id
+  const limit = 20
+  let result = {}
+
+  const startIndex = (page - 1) * limit
+  const endIndex = page * limit
+
+  try {
+    await UserTransaction.find({ user_id })
+      .then((transactions) => {
+        temp = transactions
+        length = transactions.length
+        console.log(length)
+        if (endIndex < length) {
+          result.next = {
+            page: page + 1
+          }
+        }
+
+        if (startIndex > 0) {
+          result.prev = {
+            page: page - 1
+          }
+        }
+        result.current = temp.slice(startIndex, endIndex)
+        res.json(result)
+      })
+  } catch (err) {
+    res.status(400).send(err)
+  }
+
+
+}
+
 module.exports = {
   registration,
   login,
   logout,
   postTransaction,
   getTransactions,
+  getPagination
 };

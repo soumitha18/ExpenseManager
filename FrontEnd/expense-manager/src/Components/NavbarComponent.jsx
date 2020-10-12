@@ -4,7 +4,7 @@ import axios from "axios";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink, useLocation } from "react-router-dom";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 
 const NavbarWrapper = styled.div`
   border: 1px solid #0ac76f;

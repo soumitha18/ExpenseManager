@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Sidebar from "../Components/Sidebar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,6 +11,7 @@ import styled from "styled-components";
 import Card from "react-bootstrap/Card";
 import CardDeck from "react-bootstrap/CardDeck";
 import RecentTransactions from "../Components/RecentTransactions";
+import EnterTransaction from "../Components/EnterTransaction";
 
 const DashboardWrapper = styled.div`
   .visual {
@@ -128,6 +130,14 @@ const DashboardWrapper = styled.div`
   }
 
   .recentTransactionsDiv {
+    margin: 15px 10px;
+    > h5 {
+      font-family: "Poppins";
+      margin: 15px 0px;
+    }
+  }
+
+  .enterTransactionDiv {
     margin: 20px 10px;
     > h5 {
       font-family: "Poppins";
@@ -136,7 +146,7 @@ const DashboardWrapper = styled.div`
   }
 `;
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const history = useHistory();
   const userData = JSON.parse(localStorage.getItem("activeUserDetails"));
   const [isLoading, setIsLoading] = useState(true);
@@ -144,6 +154,7 @@ export default function Dashboard() {
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpense, setTotalExpense] = useState(0);
   const [totalBalance, setTotalBalance] = useState(0);
+  const [transactionMade, setTransactionMade] = useState(false);
 
   //function to convert a number to a local currency format
   const indianCurrencyFormat = new Intl.NumberFormat("en-IN", {
@@ -151,17 +162,18 @@ export default function Dashboard() {
     currency: "INR",
   });
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5000/user/transactions?user=${userData._id}`)
-      .then((res) => {
-        setRecentTransactions(res.data.transaction);
-        setTotalBalance(res.data.balance);
-        setTotalIncome(res.data.total_income);
-        setTotalExpense(res.data.total_expense);
-      })
-      .catch((err) => console.log(err.response.data));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:5000/user/transactions?user=${userData._id}`)
+  //     .then((res) => {
+  //       console.log(res);
+  //       setRecentTransactions(res.data.transaction);
+  //       setTotalBalance(res.data.balance);
+  //       setTotalIncome(res.data.total_income);
+  //       setTotalExpense(res.data.total_expense);
+  //     })
+  //     .catch((err) => console.log(err.response.data));
+  // }, [transactionMade]);
 
   const handleLogout = () => {
     axios({
@@ -206,26 +218,7 @@ export default function Dashboard() {
           <Row>
             {/* The Sidebar division */}
             <Col className="visual d-none d-lg-block sidebar" lg={2}>
-              <h4 style={{ color: "#0AC76F" }}>EXPENSE MANAGER</h4>
-              <div className="sidebarDivItems">
-                <ul style={{ listStyle: "none" }}>
-                  <Link to="/dashboard">
-                    <li>
-                      <i className="fas fa-th-large"></i>Dashboard
-                    </li>
-                  </Link>
-                  <Link to="/dashboard/ledger">
-                    <li>
-                      <i className="fas fa-copy"></i>Ledger
-                    </li>
-                  </Link>
-                  <li>
-                    <button onClick={() => handleLogout()}>
-                      <i className="fas fa-sign-out-alt"></i>Logout
-                    </button>
-                  </li>
-                </ul>
-              </div>
+              <Sidebar handleLogout={handleLogout} />
             </Col>
 
             {/* The main Dashboard Division*/}
@@ -272,11 +265,14 @@ export default function Dashboard() {
               </Row>
               {/* Dashboard Recent 5 Transactions, and Enter Transaction Form Div */}
               <Row>
-                <Col className="recentTransactionsDiv" lg={5}>
+                <Col className="recentTransactionsDiv" lg={7}>
                   <h5>Recent Transactions</h5>
                   <RecentTransactions data={recentTransactions} />
                 </Col>
-                <Col lg={7}></Col>
+                <Col className="enterTransactionDiv" lg={4}>
+                  <h5>Enter Transaction</h5>
+                  <EnterTransaction setTransactionMade={setTransactionMade} />
+                </Col>
               </Row>
             </Col>
           </Row>

@@ -162,18 +162,18 @@ export default function Dashboard(props) {
     currency: "INR",
   });
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:5000/user/transactions?user=${userData._id}`)
-  //     .then((res) => {
-  //       console.log(res);
-  //       setRecentTransactions(res.data.transaction);
-  //       setTotalBalance(res.data.balance);
-  //       setTotalIncome(res.data.total_income);
-  //       setTotalExpense(res.data.total_expense);
-  //     })
-  //     .catch((err) => console.log(err.response.data));
-  // }, [transactionMade]);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/user/transactions?user=${userData._id}`)
+      .then((res) => {
+        console.log(res);
+        setRecentTransactions(res.data.transaction);
+        setTotalBalance(res.data.balance);
+        setTotalIncome(res.data.total_income);
+        setTotalExpense(res.data.total_expense);
+      })
+      .catch((err) => console.log(err.response.data));
+  }, [transactionMade]);
 
   const handleLogout = () => {
     axios({

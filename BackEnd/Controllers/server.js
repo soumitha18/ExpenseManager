@@ -124,37 +124,78 @@ const getPagination = async (req, res) => {
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
 
-  const totalCount = await UserTransaction.find({ user_id }).countDocuments().exec()
-  result.totalCount = totalCount
+  // const totalCount = await UserTransaction.find({ user_id }).countDocuments().exec()
+  // result.totalCount = totalCount
 
   try {
     await UserTransaction.find({ user_id }).then((transactions) => {
       temp = transactions;
-      length = transactions.length;
-      
-      if (endIndex < length) {
-        result.next = {
-          page: page + 1,
-        };
-      }
+      // length = transactions.length;
+      // result.total_count = length;
 
-      if (startIndex > 0) {
-        result.prev = {
-          page: page - 1,
-        };
-      }
-    
+      // if (endIndex < length) {
+      //   result.next = {
+      //     page: page + 1,
+      //   };
+      // }
+
+      // if (startIndex > 0) {
+      //   result.prev = {
+      //     page: page - 1,
+      //   };
+      // }
+
       switch (type) {
         case "Debit":
           temp = temp.filter((item) => item.type === "Debit");
           result.current = temp.slice(startIndex, endIndex);
+          length = result.current.length;
+          result.total_count = length;
+          if (endIndex < length) {
+            result.next = {
+              page: page + 1,
+            };
+          }
+
+          if (startIndex > 0) {
+            result.prev = {
+              page: page - 1,
+            };
+          }
+
           break;
         case "Credit":
           temp = temp.filter((item) => item.type === "Credit");
           result.current = temp.slice(startIndex, endIndex);
+          length = result.current.length;
+          result.total_count = length;
+          if (endIndex < length) {
+            result.next = {
+              page: page + 1,
+            };
+          }
+
+          if (startIndex > 0) {
+            result.prev = {
+              page: page - 1,
+            };
+          }
           break;
         default:
           result.current = temp.slice(startIndex, endIndex);
+          length = result.current.length;
+          result.total_count = length;
+          if (endIndex < length) {
+            result.next = {
+              page: page + 1,
+            };
+          }
+
+          if (startIndex > 0) {
+            result.prev = {
+              page: page - 1,
+            };
+          }
       }
       res.json(result);
     });

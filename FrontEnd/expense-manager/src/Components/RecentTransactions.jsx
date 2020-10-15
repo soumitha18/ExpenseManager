@@ -11,10 +11,11 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 const useStyles = makeStyles(() => ({
   root: {
     width: "100%",
-  },
-  "MuiAccordion-root": {
-    margin: "10px 0px",
+    margin: "5px 0px",
     padding: "5px 0px",
+    "&$Mui-expanded": {
+      margin: "10px 0px",
+    },
   },
   credit: {
     border: "2px solid #0AC76F",
@@ -54,7 +55,7 @@ export default function RecentTransactions({ data }) {
   };
 
   return (
-    <div className={classes.root}>
+    <div>
       {data.map((item) => {
         return (
           <Accordion
@@ -62,8 +63,9 @@ export default function RecentTransactions({ data }) {
             square={true}
             expanded={expanded === item._id}
             onChange={handleChange(item._id)}
-            className={`${classes["MuiAccordion-root"]}
-            } ${item.type === "Credit" ? classes.credit : classes.debit}`}
+            className={` ${classes.root} ${
+              item.type === "Credit" ? classes.credit : classes.debit
+            }`}
           >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}

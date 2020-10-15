@@ -92,7 +92,7 @@ const getTransactions = async (req, res) => {
     await UserTransaction.find({ user_id: req.query.user }).then(
       (transactions) => {
         temp = transactions;
-        console.log(temp);
+
         if (transactions.length > 5)
           result.transaction = temp.slice(
             transactions.length - 5,
@@ -115,51 +115,50 @@ const getTransactions = async (req, res) => {
 };
 
 const getPagination = async (req, res) => {
-  const page = Number(req.query.page)
-  const type = req.query.type
-  const user_id = req.query.user
-  const limit = 20
-  let result = {}
+  const page = Number(req.query.page);
+  const type = req.query.type;
+  const user_id = req.query.user;
+  const limit = 20;
+  let result = {};
 
-  const startIndex = (page - 1) * limit
-  const endIndex = page * limit
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
 
   try {
-    await UserTransaction.find({ user_id })
-      .then((transactions) => {
-        temp = transactions
-        length = transactions.length
-        console.log(length)
-        if (endIndex < length) {
-          result.next = {
-            page: page + 1
-          }
-        }
+    await UserTransaction.find({ user_id }).then((transactions) => {
+      temp = transactions;
+      length = transactions.length;
+      console.log(length);
+      if (endIndex < length) {
+        result.next = {
+          page: page + 1,
+        };
+      }
 
-        if (startIndex > 0) {
-          result.prev = {
-            page: page - 1
-          }
-        }
-        console.log(type)
-        switch (type) {
-          case "Debit":
-            temp = temp.filter(item => item.type === "Debit")
-            result.current = temp.slice(startIndex, endIndex)
-            break
-          case "Credit":
-            temp = temp.filter(item => item.type === "Credit")
-            result.current = temp.slice(startIndex, endIndex)
-            break
-          default:
-            result.current = temp.slice(startIndex, endIndex)
-        }
-        res.json(result)
-      })
+      if (startIndex > 0) {
+        result.prev = {
+          page: page - 1,
+        };
+      }
+      console.log(type);
+      switch (type) {
+        case "Debit":
+          temp = temp.filter((item) => item.type === "Debit");
+          result.current = temp.slice(startIndex, endIndex);
+          break;
+        case "Credit":
+          temp = temp.filter((item) => item.type === "Credit");
+          result.current = temp.slice(startIndex, endIndex);
+          break;
+        default:
+          result.current = temp.slice(startIndex, endIndex);
+      }
+      res.json(result);
+    });
   } catch (err) {
-    res.status(400).send(err)
+    res.status(400).send(err);
   }
-}
+};
 
 module.exports = {
   registration,
@@ -167,5 +166,5 @@ module.exports = {
   logout,
   postTransaction,
   getTransactions,
-  getPagination
+  getPagination,
 };

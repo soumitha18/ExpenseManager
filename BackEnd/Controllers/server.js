@@ -115,8 +115,8 @@ const getTransactions = async (req, res) => {
 };
 
 const getPagination = async (req, res) => {
-  const page = Number(req.query.page);
-  const type = req.query.type;
+  const page = Number(req.query.page) || 1;
+  const type = req.query.type || "All";
   const user_id = req.query.user;
   const limit = 20;
   let result = {};
@@ -124,11 +124,14 @@ const getPagination = async (req, res) => {
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
 
+  const totalCount = await UserTransaction.find({ user_id }).countDocuments().exec()
+  result.totalCount = totalCount
+
   try {
     await UserTransaction.find({ user_id }).then((transactions) => {
       temp = transactions;
       length = transactions.length;
-      console.log(length);
+      
       if (endIndex < length) {
         result.next = {
           page: page + 1,
@@ -140,7 +143,7 @@ const getPagination = async (req, res) => {
           page: page - 1,
         };
       }
-      console.log(type);
+    
       switch (type) {
         case "Debit":
           temp = temp.filter((item) => item.type === "Debit");

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
@@ -8,6 +8,10 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { makeStyles } from "@material-ui/core/styles";
+import { Paper, Tabs, Tab, Grid } from "@material-ui/core";
+import LedgerTable from "../Components/LedgerTable";
+import { Pagination } from "@material-ui/lab";
 
 const LedgerWrapper = styled.div`
   .visual {
@@ -17,6 +21,9 @@ const LedgerWrapper = styled.div`
   .sidebar {
     background-color: white;
     box-shadow: 5px 5px 10px #e6e6e6;
+    position: fixed;
+    min-width: 256px;
+    z-index: 5;
     h4 {
       text-align: center;
       font-family: "Poppins";
@@ -65,9 +72,29 @@ const LedgerWrapper = styled.div`
   }
 `;
 
+const useStyles = makeStyles({
+  root: {
+    backgroundColor: "inherit",
+    "&selected": {
+      backgroundColor: "green",
+    },
+  },
+});
 export default function Ledger() {
+  const classes = useStyles();
   let history = useHistory();
+  const [value, setValue] = React.useState("All");
+  const [paginationData, setPaginationData] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [paginationPage, setPaginationPage] = useState(1);
+  const [paginationType, setPaginationType] = useState("All");
   const userData = JSON.parse(localStorage.getItem("activeUserDetails"));
+
+  const handleChange = (event, newValue) => {
+    //newValue contains the value of All(default), Credit and Debit
+    setValue(newValue);
+    setPaginationType(newValue);
+  };
 
   const handleLogout = () => {
     axios({
@@ -87,6 +114,31 @@ export default function Ledger() {
       })
       .catch((err) => console.log(err));
   };
+
+  const changePaginationNumber = (value) => {
+    console.log("The changed pagination Number is", value);
+    setPaginationPage(value);
+  };
+
+  const paginationDependency = useMemo(() => {
+    return { paginationPage, paginationType };
+  }, [paginationPage, paginationType]);
+
+  useEffect(() => {
+    console.log("The request inside ledger is getting called");
+    axios({
+      method: "GET",
+      url: "http://localhost:5000/user/transactions/pagination",
+      params: {
+        user: userData._id,
+        page: paginationPage,
+        type: paginationType,
+      },
+    }).then(({ data }) => {
+      setPaginationData(data.current);
+      setTotalPages(data.total_count);
+    });
+  }, [paginationDependency]);
 
   if (!userData.active) {
     return <Redirect to="/login" />;
@@ -113,7 +165,52 @@ export default function Ledger() {
           <Col className="visual d-none d-lg-block sidebar" lg={2}>
             <Sidebar handleLogout={handleLogout} />
           </Col>
-          <Col lg={10}>Inside the Ledger Page</Col>
+          <Col
+            lg={{ offset: 2 }}
+            style={{ padding: " 0px 20px", minHeight: "100vh" }}
+          >
+            <Grid
+              style={{
+                width: "90%",
+                margin: "auto",
+                maxHeight: "100vh",
+                paddingBottom: "30px",
+              }}
+            >
+              <Paper square={true}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="All" value="All" />
+                  <Tab label="Credit" value="Credit" />
+                  <Tab label="Debit" value="Debit" />
+                </Tabs>
+              </Paper>
+              <Grid>
+                <LedgerTable paginationData={paginationData} />
+              </Grid>
+              <Grid
+                style={{
+                  width: "fit-content",
+                  margin: "10px auto",
+                }}
+              >
+                <Pagination
+                  count={Math.ceil(totalPages / 20)}
+                  onChange={(e, value) => changePaginationNumber(value)}
+                  classes={{
+                    root: classes.root,
+                  }}
+                  className="paginationButton"
+                  size="large"
+                />
+              </Grid>
+            </Grid>
+          </Col>
         </Row>
       </Container>
     </LedgerWrapper>

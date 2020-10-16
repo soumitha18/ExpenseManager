@@ -130,26 +130,11 @@ const getPagination = async (req, res) => {
   try {
     await UserTransaction.find({ user_id }).then((transactions) => {
       temp = transactions;
-      // length = transactions.length;
-      // result.total_count = length;
-
-      // if (endIndex < length) {
-      //   result.next = {
-      //     page: page + 1,
-      //   };
-      // }
-
-      // if (startIndex > 0) {
-      //   result.prev = {
-      //     page: page - 1,
-      //   };
-      // }
 
       switch (type) {
         case "Debit":
           temp = temp.filter((item) => item.type === "Debit");
-          result.current = temp.slice(startIndex, endIndex);
-          length = result.current.length;
+          length = temp.length
           result.total_count = length;
           if (endIndex < length) {
             result.next = {
@@ -162,12 +147,11 @@ const getPagination = async (req, res) => {
               page: page - 1,
             };
           }
-
+          result.current = temp.slice(startIndex, endIndex);
           break;
         case "Credit":
           temp = temp.filter((item) => item.type === "Credit");
-          result.current = temp.slice(startIndex, endIndex);
-          length = result.current.length;
+          length = temp.length;
           result.total_count = length;
           if (endIndex < length) {
             result.next = {
@@ -180,10 +164,10 @@ const getPagination = async (req, res) => {
               page: page - 1,
             };
           }
+          result.current = temp.slice(startIndex, endIndex);
           break;
         default:
-          result.current = temp.slice(startIndex, endIndex);
-          length = result.current.length;
+          length = temp.length;
           result.total_count = length;
           if (endIndex < length) {
             result.next = {
@@ -196,6 +180,7 @@ const getPagination = async (req, res) => {
               page: page - 1,
             };
           }
+          result.current = temp.slice(startIndex, endIndex);
       }
       res.json(result);
     });

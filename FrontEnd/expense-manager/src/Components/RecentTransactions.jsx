@@ -43,7 +43,6 @@ const useStyles = makeStyles(() => ({
 export default function RecentTransactions({ data }) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
-  console.log("The data in recent transactions is", data);
 
   const indianCurrencyFormat = new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -56,41 +55,43 @@ export default function RecentTransactions({ data }) {
 
   return (
     <div>
-      {data.map((item) => {
-        return (
-          <Accordion
-            key={item._id}
-            square={true}
-            expanded={expanded === item._id}
-            onChange={handleChange(item._id)}
-            className={` ${classes.root} ${
-              item.type === "Credit" ? classes.credit : classes.debit
-            }`}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-              className={classes.accordionSummary}
+      {data
+        .map((item) => {
+          return (
+            <Accordion
+              key={item._id}
+              square={true}
+              expanded={expanded === item._id}
+              onChange={handleChange(item._id)}
+              className={` ${classes.root} ${
+                item.type === "Credit" ? classes.credit : classes.debit
+              }`}
             >
-              <Typography>{item.title}</Typography>
-              <Typography className={classes.amount}>
-                {item.type === "Credit"
-                  ? `+${indianCurrencyFormat.format(item.amount)}`
-                  : `-${indianCurrencyFormat.format(item.amount)}`}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails className={classes.moreDetails}>
-              <Typography>
-                <b>Type :</b> {item.type}
-              </Typography>
-              <Typography>
-                <b>Date/Time :</b> {item.date}
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        );
-      })}
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                className={classes.accordionSummary}
+              >
+                <Typography>{item.title}</Typography>
+                <Typography className={classes.amount}>
+                  {item.type === "Credit"
+                    ? `+${indianCurrencyFormat.format(item.amount)}`
+                    : `-${indianCurrencyFormat.format(item.amount)}`}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.moreDetails}>
+                <Typography>
+                  <b>Type :</b> {item.type}
+                </Typography>
+                <Typography>
+                  <b>Date/Time :</b> {item.date}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          );
+        })
+        .reverse()}
     </div>
   );
 }

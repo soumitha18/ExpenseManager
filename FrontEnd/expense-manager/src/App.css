@@ -8,13 +8,18 @@
   -moz-box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 button:focus {
   outline: none;
 }
 
 .paginationButton {
-  position: absolute;
-  bottom: 20px;
+  position: relative;
+  bottom: -10px;
   left: 50%;
   transform: translate(-50%);
 }

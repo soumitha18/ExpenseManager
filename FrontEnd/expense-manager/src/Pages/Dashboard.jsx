@@ -149,7 +149,6 @@ const DashboardWrapper = styled.div`
 export default function Dashboard(props) {
   const history = useHistory();
   const userData = JSON.parse(localStorage.getItem("activeUserDetails"));
-  const [isLoading, setIsLoading] = useState(true);
   const [recentTransactions, setRecentTransactions] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpense, setTotalExpense] = useState(0);
@@ -166,14 +165,13 @@ export default function Dashboard(props) {
     axios
       .get(`http://localhost:5000/user/transactions?user=${userData._id}`)
       .then((res) => {
-        console.log(res);
         setRecentTransactions(res.data.transaction);
         setTotalBalance(res.data.balance);
         setTotalIncome(res.data.total_income);
         setTotalExpense(res.data.total_expense);
       })
       .catch((err) => console.log(err.response.data));
-  }, [transactionMade]);
+  }, [transactionMade, userData._id]);
 
   const handleLogout = () => {
     axios({
@@ -204,12 +202,13 @@ export default function Dashboard(props) {
           <Row>
             <Col className="d-lg-none" style={{ padding: "0px" }}>
               <Navbar bg="light" expand="lg">
-                <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+                <Navbar.Brand>EXPENSE MANAGER</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#link">Link</Nav.Link>
+                    <Link to="/dashboard">Dashboard</Link>
+                    <Link to="/dashboard/ledger">Ledger</Link>
+                    <button onClick={handleLogout}>Logout</button>
                   </Nav>
                 </Navbar.Collapse>
               </Navbar>

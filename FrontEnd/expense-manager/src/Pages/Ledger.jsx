@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Redirect, useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
@@ -128,6 +128,10 @@ export default function Ledger() {
     setPaginationPage(value);
   };
 
+  const paginationDependency = useMemo(() => {
+    return { paginationPage, paginationType };
+  }, [paginationPage, paginationType]);
+
   useEffect(() => {
     console.log("The request inside ledger is getting called");
     axios({
@@ -142,7 +146,7 @@ export default function Ledger() {
       setPaginationData(data.current);
       setTotalPages(data.total_count);
     });
-  }, [paginationPage, paginationType, userData]);
+  }, [paginationDependency]);
 
   if (!userData.active) {
     return <Redirect to="/login" />;

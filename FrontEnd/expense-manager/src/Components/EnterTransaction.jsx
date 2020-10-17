@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
@@ -65,9 +65,6 @@ export default function EnterTransaction({ setTransactionMade }) {
   const [amount, setAmount] = useState(0);
   const [amountError, setAmountError] = useState(false);
   const [errorInTransaction, setErrorInTransaction] = useState(false);
-  const [errorMessageOfTransaction, setErrorMessageOfTransaction] = useState(
-    ""
-  );
   const [successInTransaction, setSuccessInTransaction] = useState(false);
 
   const handleRadioChange = (value) => {
@@ -110,9 +107,7 @@ export default function EnterTransaction({ setTransactionMade }) {
         })
         .catch((err) => {
           setErrorInTransaction(true);
-          setErrorMessageOfTransaction(err);
           setTimeout(() => {
-            setErrorMessageOfTransaction("");
             setErrorInTransaction(false);
           }, 2500);
         });

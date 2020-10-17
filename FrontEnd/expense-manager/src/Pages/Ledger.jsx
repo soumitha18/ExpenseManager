@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import Sidebar from "../Components/Sidebar";
@@ -149,12 +149,15 @@ export default function Ledger() {
         <Row>
           <Col className="d-lg-none" style={{ padding: "0px" }}>
             <Navbar bg="light" expand="lg">
-              <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+              <Navbar.Brand href="#home">EXPENSE MANAGER</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                  <Nav.Link href="#home">Home</Nav.Link>
-                  <Nav.Link href="#link">Link</Nav.Link>
+                  <Link to="/dashboard">Dashboard</Link>
+
+                  <Link to="/dashboard/ledger">Ledger</Link>
+
+                  <button onClick={handleLogout}>Logout</button>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
@@ -167,14 +170,17 @@ export default function Ledger() {
           </Col>
           <Col
             lg={{ offset: 2 }}
-            style={{ padding: " 0px 20px", minHeight: "100vh" }}
+            style={{
+              padding: " 0px 20px",
+              minHeight: "100vh",
+              paddingBottom: "20px",
+            }}
           >
             <Grid
               style={{
                 width: "90%",
                 margin: "auto",
                 maxHeight: "100vh",
-                paddingBottom: "30px",
               }}
             >
               <Paper square={true}>
@@ -196,7 +202,8 @@ export default function Ledger() {
               <Grid
                 style={{
                   width: "fit-content",
-                  margin: "10px auto",
+                  margin: "0px auto",
+                  // marginTop: "10px",
                 }}
               >
                 <Pagination

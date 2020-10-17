@@ -17,6 +17,11 @@ const useStyles = makeStyles({
   },
 });
 
+const indianCurrencyFormat = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+});
+
 export default function LedgerTable({ paginationData }) {
   const classes = useStyles();
 
@@ -29,11 +34,21 @@ export default function LedgerTable({ paginationData }) {
       <Table className={classes.table} aria-label="simple table" stickyHeader>
         <TableHead>
           <TableRow>
-            <TableCell align="left">#</TableCell>
-            <TableCell align="left">Date</TableCell>
-            <TableCell align="center">Title</TableCell>
-            <TableCell align="center">Type</TableCell>
-            <TableCell align="right">Amount</TableCell>
+            <TableCell align="left">
+              <b>#</b>
+            </TableCell>
+            <TableCell align="left">
+              <b>DATE</b>
+            </TableCell>
+            <TableCell align="center">
+              <b>TITLE</b>
+            </TableCell>
+            <TableCell align="center">
+              <b>TYPE</b>
+            </TableCell>
+            <TableCell align="right">
+              <b>AMOUNT</b>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -45,7 +60,9 @@ export default function LedgerTable({ paginationData }) {
                   <TableCell align="left">{row.date}</TableCell>
                   <TableCell align="center">{row.title}</TableCell>
                   <TableCell align="center">{row.type}</TableCell>
-                  <TableCell align="right">{row.amount}</TableCell>
+                  <TableCell align="right">
+                    {indianCurrencyFormat.format(row.amount)}
+                  </TableCell>
                 </TableRow>
               );
             })}

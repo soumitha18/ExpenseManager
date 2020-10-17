@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 export default function Sidebar(props) {
   return (
     <>
-      <h4 style={{ color: "#0AC76F" }}>EXPENSE MANAGER</h4>
+      <Link to="/" style={{ textDecoration: "none" }}>
+        <h4 style={{ color: "#0AC76F" }}>EXPENSE MANAGER</h4>
+      </Link>
       <div className="sidebarDivItems">
         <ul style={{ listStyle: "none" }}>
           <Link to="/dashboard">

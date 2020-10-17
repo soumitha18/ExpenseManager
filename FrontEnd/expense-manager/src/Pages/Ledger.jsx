@@ -70,6 +70,14 @@ const LedgerWrapper = styled.div`
       }
     }
   }
+
+  .topBar {
+    a {
+      text-decoration: none;
+      color: inherit;
+      font-family: "Poppins";
+    }
+  }
 `;
 
 const useStyles = makeStyles({
@@ -152,12 +160,27 @@ export default function Ledger() {
               <Navbar.Brand href="#home">EXPENSE MANAGER</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto">
-                  <Link to="/dashboard">Dashboard</Link>
+                <Nav className="mr-auto topBar">
+                  <Link to="/dashboard" style={{ padding: "5px 0px" }}>
+                    Dashboard
+                  </Link>
 
-                  <Link to="/dashboard/ledger">Ledger</Link>
+                  <Link to="/dashboard/ledger" style={{ padding: "5px 0px" }}>
+                    Ledger
+                  </Link>
 
-                  <button onClick={handleLogout}>Logout</button>
+                  <button
+                    onClick={handleLogout}
+                    style={{
+                      backgroundColor: "#0AC76F",
+                      border: "1px solid #10B26C",
+                      marginTop: "8px",
+                      padding: "3px 0px",
+                      color: "white",
+                    }}
+                  >
+                    Logout
+                  </button>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>

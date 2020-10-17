@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
     border: "1px solid #0AC76F",
     backgroundColor: "white",
     borderRadius: 4,
-    width: "fit-content",
+    width: "100%",
     padding: "10px 20px",
     "& label": {
       margin: "auto 0px",

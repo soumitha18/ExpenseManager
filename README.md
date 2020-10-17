@@ -2,7 +2,7 @@
 
 This Repository is contain the Source code of the __Expense Manager__
 
-![Home Page](http://via.placeholder.com/200x150 "Home Page")
+![Home Page](Resources/expenses.jpeg "Home Page")
 
 You can see the website HERE
 

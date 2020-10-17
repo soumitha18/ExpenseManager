@@ -144,6 +144,14 @@ const DashboardWrapper = styled.div`
       margin: 15px 0px;
     }
   }
+
+  .topBar {
+    a {
+      text-decoration: none;
+      color: inherit;
+      font-family: "Poppins";
+    }
+  }
 `;
 
 export default function Dashboard(props) {
@@ -205,10 +213,25 @@ export default function Dashboard(props) {
                 <Navbar.Brand>EXPENSE MANAGER</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                  <Nav className="mr-auto">
-                    <Link to="/dashboard">Dashboard</Link>
-                    <Link to="/dashboard/ledger">Ledger</Link>
-                    <button onClick={handleLogout}>Logout</button>
+                  <Nav className="mr-auto  topBar">
+                    <Link to="/dashboard" style={{ padding: "5px 0px" }}>
+                      Dashboard
+                    </Link>
+                    <Link to="/dashboard/ledger" style={{ padding: "5px 0px" }}>
+                      Ledger
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      style={{
+                        backgroundColor: "#0AC76F",
+                        border: "1px solid #10B26C",
+                        padding: "3px 0px",
+                        marginTop: "8px",
+                        color: "white",
+                      }}
+                    >
+                      Logout
+                    </button>
                   </Nav>
                 </Navbar.Collapse>
               </Navbar>

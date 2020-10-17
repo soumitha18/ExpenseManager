@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link, Redirect, useHistory } from "react-router-dom";
+import Alert from "@material-ui/lab/Alert";
 
 const RegistrationWrapper = styled.div`
   padding-top: 40px;
@@ -152,6 +153,7 @@ export default function Login() {
   const [err, setErr] = useState("");
   const [showError, setShowError] = useState(false);
   const history = useHistory();
+  const [isLoginSuccessful, setLoginSuccessful] = useState(false);
 
   const userData = JSON.parse(localStorage.getItem("activeUserDetails"));
 
@@ -162,9 +164,12 @@ export default function Login() {
       .post("http://localhost:5000/user/login", obj)
       .then((res) => {
         setErr("");
-        alert(res.data.res);
-        savingData(res.data.user);
-        history.push("/dashboard");
+        setLoginSuccessful(true);
+        setTimeout(() => {
+          setLoginSuccessful(false);
+          savingData(res.data.user);
+          history.push("/dashboard");
+        }, 1000);
       })
       .catch((err) => {
         setErr(err.response.data);
@@ -185,6 +190,7 @@ export default function Login() {
 
   return (
     <RegistrationWrapper>
+      {isLoginSuccessful && <Alert severity="success">Successful Login</Alert>}
       <div className="loginDiv">
         {/* Picture Div */}
         <div className="loginPageImageDiv">

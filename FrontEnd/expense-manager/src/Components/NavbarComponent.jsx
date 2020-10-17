@@ -3,8 +3,8 @@ import styled from "styled-components";
 import axios from "axios";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { NavLink, useLocation } from "react-router-dom";
-import { useHistory} from "react-router-dom";
+import { NavLink, useLocation, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const NavbarWrapper = styled.div`
   border: 1px solid #0ac76f;
@@ -67,7 +67,9 @@ export default function NavbarComponent() {
     <NavbarWrapper>
       <Navbar bg="light" expand="lg">
         <Navbar.Brand style={{ fontFamily: "Poppins", flex: 15 }}>
-          EXPENSE MANAGER
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            EXPENSE MANAGER
+          </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

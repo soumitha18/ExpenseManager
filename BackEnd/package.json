@@ -17,6 +17,6 @@
     "express": "^4.17.1",
     "joi": "^17.2.1",
     "mongoose": "^5.10.9",
-    "nodemailer": "^6.4.13"
+    "nodemailer": "^6.4.16"
   }
 }
